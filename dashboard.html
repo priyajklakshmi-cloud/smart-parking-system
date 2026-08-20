@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="ParkCloud smart parking management dashboard."
+    >
+
+    <title>ParkCloud | Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+
+        .dashboard-page {
+            padding: 60px 0 90px;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .dashboard-label {
+            color: var(--primary);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .dashboard-header h1 {
+            margin-top: 9px;
+            font-size: clamp(32px, 5vw, 50px);
+            line-height: 1.05;
+            letter-spacing: -2px;
+        }
+
+        .dashboard-header h1 span {
+            color: var(--primary);
+        }
+
+        .dashboard-header p {
+            max-width: 560px;
+            margin-top: 12px;
+            color: var(--text);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .system-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--green);
+            background: rgba(69, 224, 163, 0.04);
+            font-size: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .system-status i {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--green);
+            box-shadow: 0 0 10px rgba(69, 224, 163, 0.5);
+        }
+
+        /* Statistics */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .stat-card {
+            position: relative;
+            padding: 20px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 35, 56, 0.92),
+                    rgba(7, 19, 32, 0.96)
+                );
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            right: -25px;
+            bottom: -25px;
+            border-radius: 50%;
+            background: rgba(66, 216, 255, 0.05);
+        }
+
+        .stat-card small {
+            color: var(--muted);
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .stat-card strong {
+            display: block;
+            margin-top: 9px;
+            font-size: 29px;
+            letter-spacing: -1px;
+        }
+
+        .stat-card span {
+            display: block;
+            margin-top: 6px;
+            color: var(--green);
+            font-size: 7px;
+            font-weight: 700;
+        }
+
+        .stat-card:nth-child(2) strong {
+            color: var(--green);
+        }
+
+        .stat-card:nth-child(3) strong {
+            color: var(--red);
+        }
+
+        .stat-card:nth-child(4) strong {
+            color: var(--primary);
+        }
+
+        /* Main Dashboard */
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(260px, 0.6fr);
+            gap: 18px;
+            margin-top: 18px;
+        }
+
+        .dashboard-card {
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 35, 56, 0.92),
+                    rgba(7, 19, 32, 0.96)
+                );
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-header small {
+            color: var(--primary);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .card-header h2 {
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        .card-header span {
+            color: var(--muted);
+            font-size: 7px;
+        }
+
+        /* Occupancy */
+
+        .occupancy-content {
+            padding: 22px;
+        }
+
+        .occupancy-value {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .occupancy-value strong {
+            font-size: 40px;
+            letter-spacing: -2px;
+        }
+
+        .occupancy-value span {
+            color: var(--green);
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 10px;
+            overflow: hidden;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .progress-bar {
+            width: 68%;
+            height: 100%;
+            border-radius: inherit;
+            background: var(--primary);
+            box-shadow: 0 0 15px rgba(66, 216, 255, 0.25);
+        }
+
+        .occupancy-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .occupancy-item {
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+        }
+
+        .occupancy-item small {
+            color: var(--muted);
+            font-size: 6px;
+        }
+
+        .occupancy-item strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 14px;
+        }
+
+        .available-number {
+            color: var(--green);
+        }
+
+        .occupied-number {
+            color: var(--red);
+        }
+
+        .reserved-number {
+            color: var(--yellow);
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Navigation -->
+
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-mark">
+                    P
+                </span>
+
+                <div class="brand-text">
+
+                    <strong>
+                        ParkCloud
+                    </strong>
+
+                    <span>
+                        SMART PARKING
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="parking.html">
+                    Parking
+                </a>
+
+                <a
+                    href="dashboard.html"
+                    class="active"
+                >
+                    Dashboard
+                </a>
+
+            </nav>
+
+
+            <a
+                href="parking.html"
+                class="nav-action"
+            >
+                Find Parking
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- Dashboard -->
+
+    <main>
+
+        <section class="dashboard-page">
+
+            <div class="container">
+
+
+                <!-- Header -->
+
+                <div class="dashboard-header">
+
+                    <div>
+
+                        <span class="dashboard-label">
+                            PARKING ANALYTICS
+                        </span>
+
+                        <h1>
+                            Smart parking
+                            <span>overview.</span>
+                        </h1>
+
+                        <p>
+                            Monitor parking availability,
+                            occupancy and system activity
+                            from one centralized dashboard.
+                        </p>
+
+                    </div>
+
+
+                    <div class="system-status">
+
+                        <i></i>
+
+                        Cloud system operational
+
+                    </div>
+
+                </div>
+
+
+                <!-- Statistics -->
+
+                <div class="stats-grid">
+
+
+                    <div class="stat-card">
+
+                        <small>
+                            TOTAL SLOTS
+                        </small>
+
+                        <strong>
+                            120
+                        </strong>
+
+                        <span>
+                            ↑ Campus capacity
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <small>
+                            AVAILABLE
+                        </small>
+
+                        <strong>
+                            38
+                        </strong>
+
+                        <span>
+                            ● Ready to park
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <small>
+                            OCCUPIED
+                        </small>
+
+                        <strong>
+                            82
+                        </strong>
+
+                        <span>
+                            ● Currently in use
+                        </span>
+
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <small>
+                            OCCUPANCY
+                        </small>
+
+                        <strong>
+                            68%
+                        </strong>
+
+                        <span>
+                            ↑ Normal usage
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Main Dashboard Grid -->
+
+                <div class="dashboard-grid">
+
+
+                    <!-- Occupancy Card -->
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <small>
+                                    LIVE ANALYTICS
+                                </small>
+
+                                <h2>
+                                    Parking Occupancy
+                                </h2>
+
+                            </div>
+
+                            <span>
+                                Updated just now
+                            </span>
+
+                        </div>
+
+
+                        <div class="occupancy-content">
+
+                            <div class="occupancy-value">
+
+                                <strong>
+                                    68%
+                                </strong>
+
+                                <span>
+                                    Normal occupancy
+                                </span>
+
+                            </div>
+
+
+                            <div class="progress-track">
+
+                                <div class="progress-bar"></div>
+
+                            </div>
+
+
+                            <div class="occupancy-details">
+
+
+                                <div class="occupancy-item">
+
+                                    <small>
+                                        AVAILABLE
+                                    </small>
+
+                                    <strong class="available-number">
+                                        38
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="occupancy-item">
+
+                                    <small>
+                                        OCCUPIED
+                                    </small>
+
+                                    <strong class="occupied-number">
+                                        82
+                                    </strong>
+
+                                </div>
+
+
+                                <div class="occupancy-item">
+
+                                    <small>
+                                        RESERVED
+                                    </small>
+
+                                    <strong class="reserved-number">
+                                        12
+                                    </strong>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- Activity Card -->
+
+                    <div class="dashboard-card">
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <small>
+                                    SYSTEM ACTIVITY
+                                </small>
+
+                                <h2>
+                                    Recent Events
+                                </h2>
+
+                            </div>
+
+                            <span>
+                                Live
+                            </span>
+
+                        </div>
+
+
+                        <div class="activity-list">
+
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    P
+                                </div>
+
+                                <div class="activity-info">
+
+                                    <strong>
+                                        Slot A03 reserved
+                                    </strong>
+
+                                    <small>
+                                        Vehicle TN01AB1234
+                                    </small>
+
+                                </div>
+
+                                <span class="activity-time">
+                                    2 min
+                                </span>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    ✓
+                                </div>
+
+                                <div class="activity-info">
+
+                                    <strong>
+                                        Slot B01 became available
+                                    </strong>
+
+                                    <small>
+                                        Parking Zone B
+                                    </small>
+
+                                </div>
+
+                                <span class="activity-time">
+                                    8 min
+                                </span>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    P
+                                </div>
+
+                                <div class="activity-info">
+
+                                    <strong>
+                                        Vehicle entered
+                                    </strong>
+
+                                    <small>
+                                        Slot A02 occupied
+                                    </small>
+
+                                </div>
+
+                                <span class="activity-time">
+                                    12 min
+                                </span>
+
+                            </div>
+
+
+                            <div class="activity-item">
+
+                                <div class="activity-icon">
+                                    !
+                                </div>
+
+                                <div class="activity-info">
+
+                                    <strong>
+                                        Maintenance completed
+                                    </strong>
+
+                                    <small>
+                                        Parking Zone C
+                                    </small>
+
+                                </div>
+
+                                <span class="activity-time">
+                                    18 min
+                                </span>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Zone Overview -->
+
+                <div
+                    class="dashboard-card"
+                    style="margin-top: 18px;"
+                >
+
+                    <div class="card-header">
+
+                        <div>
+
+                            <small>
+                                PARKING ZONES
+                            </small>
+
+                            <h2>
+                                Zone Availability
+                            </h2>
+
+                        </div>
+
+                        <span>
+                            3 active zones
+                        </span>
+
+                    </div>
+
+
+                    <div class="zone-grid">
+
+
+                        <div class="zone-card">
+
+                            <div class="zone-top">
+
+                                <strong>
+                                    Zone A
+                                </strong>
+
+                                <span class="zone-online">
+                                    ● Online
+                                </span>
+
+                            </div>
+
+                            <p>
+                                Main Entrance
+                            </p>
+
+                            <div class="zone-progress">
+
+                                <div
+                                    class="zone-progress-bar"
+                                    style="width: 72%;"
+                                ></div>
+
+                            </div>
+
+                            <div class="zone-footer">
+
+                                <span>
+                                    12 available
+                                </span>
+
+                                <strong>
+                                    72%
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="zone-card">
+
+                            <div class="zone-top">
+
+                                <strong>
+                                    Zone B
+                                </strong>
+
+                                <span class="zone-online">
+                                    ● Online
+                                </span>
+
+                            </div>
+
+                            <p>
+                                Academic Block
+                            </p>
+
+                            <div class="zone-progress">
+
+                                <div
+                                    class="zone-progress-bar"
+                                    style="width: 55%;"
+                                ></div>
+
+                            </div>
+
+                            <div class="zone-footer">
+
+                                <span>
+                                    18 available
+                                </span>
+
+                                <strong>
+                                    55%
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="zone-card">
+
+                            <div class="zone-top">
+
+                                <strong>
+                                    Zone C
+                                </strong>
+
+                                <span class="zone-online">
+                                    ● Online
+                                </span>
+
+                            </div>
+
+                            <p>
+                                Library Area
+                            </p>
+
+                            <div class="zone-progress">
+
+                                <div
+                                    class="zone-progress-bar"
+                                    style="width: 81%;"
+                                ></div>
+
+                            </div>
+
+                            <div class="zone-footer">
+
+                                <span>
+                                    8 available
+                                </span>
+
+                                <strong>
+                                    81%
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- Dashboard Information -->
+
+                <div class="dashboard-info">
+
+                    <div>
+
+                        <span>
+                            CLOUD CONNECTIVITY
+                        </span>
+
+                        <strong>
+                            Data synchronization active
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            LAST SYNC
+                        </span>
+
+                        <strong>
+                            Just now
+                        </strong>
+
+                    </div>
+
+                    <div>
+
+                        <span>
+                            SYSTEM UPTIME
+                        </span>
+
+                        <strong>
+                            99.8%
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+    <!-- Footer -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-mark">
+                    P
+                </span>
+
+                <div class="brand-text">
+
+                    <strong>
+                        ParkCloud
+                    </strong>
+
+                    <span>
+                        SMART PARKING
+                    </span>
+
+                </div>
+
+            </a>
+
+            <p>
+                Cloud-based smart parking management
+                for connected spaces.
+            </p>
+
+            <span class="copyright">
+                © 2026 ParkCloud
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>

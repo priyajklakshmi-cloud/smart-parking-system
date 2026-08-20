@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="ParkCloud parking availability and reservation system."
+    >
+
+    <title>ParkCloud | Parking</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <style>
+        /* Parking page specific layout */
+
+        .parking-page {
+            padding: 65px 0 90px;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 35px;
+        }
+
+        .page-header-label {
+            color: var(--primary);
+            font-size: 8px;
+            font-weight: 800;
+            letter-spacing: 2px;
+        }
+
+        .page-header h1 {
+            margin-top: 10px;
+            font-size: clamp(32px, 5vw, 52px);
+            line-height: 1.05;
+            letter-spacing: -2.5px;
+        }
+
+        .page-header h1 span {
+            color: var(--primary);
+        }
+
+        .page-header p {
+            max-width: 560px;
+            margin-top: 12px;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .location-card {
+            min-width: 205px;
+            padding: 15px 17px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .location-card small {
+            display: block;
+            color: var(--muted);
+            font-size: 7px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .location-card strong {
+            display: block;
+            margin-top: 4px;
+            font-size: 10px;
+        }
+
+        .location-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 7px;
+            color: var(--green);
+            font-size: 7px;
+            font-weight: 700;
+        }
+
+        .location-status i {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--green);
+        }
+
+        .parking-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 290px;
+            gap: 20px;
+        }
+
+        .parking-board,
+        .booking-panel {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(15, 35, 56, 0.92),
+                    rgba(7, 19, 32, 0.96)
+                );
+        }
+
+        .parking-board {
+            padding: 22px;
+        }
+
+        .board-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .board-title small {
+            color: var(--primary);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .board-title h2 {
+            margin-top: 4px;
+            font-size: 15px;
+        }
+
+        .board-count {
+            color: var(--text);
+            font-size: 8px;
+        }
+
+        .parking-area {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            background:
+                linear-gradient(
+                    rgba(66, 216, 255, 0.02) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(66, 216, 255, 0.02) 1px,
+                    transparent 1px
+                );
+            background-size: 35px 35px;
+        }
+
+        .parking-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .parking-row + .parking-row {
+            margin-top: 25px;
+        }
+
+        .row-label {
+            margin-bottom: 9px;
+            color: var(--muted);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .slot-card {
+            min-height: 115px;
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            color: var(--white);
+            background: rgba(255, 255, 255, 0.025);
+            cursor: pointer;
+            text-align: left;
+            transition: 0.25s ease;
+        }
+
+        .slot-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .slot-card.selected {
+            border-color: var(--primary);
+            box-shadow: 0 0 25px rgba(66, 216, 255, 0.12);
+        }
+
+        .slot-card .slot-number {
+            font-size: 8px;
+            font-weight: 800;
+        }
+
+        .slot-card .slot-icon {
+            display: block;
+            margin-top: 7px;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .slot-card small {
+            display: block;
+            margin-top: 7px;
+            color: var(--text);
+            font-size: 7px;
+        }
+
+        .slot-available {
+            border-color: rgba(69, 224, 163, 0.18);
+            background: rgba(69, 224, 163, 0.045);
+        }
+
+        .slot-available .slot-number,
+        .slot-available .slot-icon {
+            color: var(--green);
+        }
+
+        .slot-occupied {
+            border-color: rgba(255, 100, 124, 0.17);
+            background: rgba(255, 100, 124, 0.045);
+            cursor: not-allowed;
+        }
+
+        .slot-occupied .slot-number,
+        .slot-occupied .slot-icon {
+            color: var(--red);
+        }
+
+        .slot-reserved {
+            border-color: rgba(255, 200, 87, 0.17);
+            background: rgba(255, 200, 87, 0.045);
+            cursor: not-allowed;
+        }
+
+        .slot-reserved .slot-number,
+        .slot-reserved .slot-icon {
+            color: var(--yellow);
+        }.parking-legend-page {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 22px;
+            color: var(--muted);
+            font-size: 7px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .legend-circle {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+        }
+
+        .legend-green {
+            background: var(--green);
+        }
+
+        .legend-red {
+            background: var(--red);
+        }
+
+        .legend-yellow {
+            background: var(--yellow);
+        }
+
+        .booking-panel {
+            padding: 22px;
+            height: fit-content;
+        }
+
+        .booking-panel > small {
+            color: var(--primary);
+            font-size: 7px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+        }
+
+        .booking-panel h2 {
+            margin-top: 7px;
+            font-size: 18px;
+        }
+
+        .booking-panel > p {
+            margin-top: 8px;
+            color: var(--text);
+            font-size: 9px;
+            line-height: 1.7;
+        }
+
+        .selected-slot {
+            margin-top: 22px;
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            background: rgba(255, 255, 255, 0.025);
+        }
+
+        .selected-slot small {
+            color: var(--muted);
+            font-size: 7px;
+        }
+
+        .selected-slot strong {
+            display: block;
+            margin-top: 3px;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .booking-form {
+            margin-top: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 13px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--text);
+            font-size: 7px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            height: 40px;
+            padding: 0 11px;
+            outline: none;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--white);
+            background: #091827;
+            font-family: inherit;
+            font-size: 8px;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: rgba(66, 216, 255, 0.45);
+        }
+
+        .reserve-btn {
+            width: 100%;
+            height: 42px;
+            margin-top: 5px;
+            border: 0;
+            border-radius: 8px;
+            color: #03131e;
+            background: var(--primary);
+            font-size: 8px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: 0.25s ease;
+        }
+
+        .reserve-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(66, 216, 255, 0.18);
+        }
+
+        .booking-note {
+            margin-top: 13px;
+            color: var(--muted);
+            font-size: 7px;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 900px) {
+            .parking-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .parking-page {
+                padding: 45px 0 65px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .location-card {
+                width: 100%;
+            }
+
+            .parking-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .parking-board {
+                padding: 15px;
+            }
+
+            .parking-area {
+                padding: 12px;
+            }
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <a href="index.html" class="brand">
+
+                <span class="brand-mark">
+                    P
+                </span>
+
+                <div class="brand-text">
+
+                    <strong>
+                        ParkCloud
+                    </strong>
+
+                    <span>
+                        SMART PARKING
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <nav class="nav-links">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a
+                    href="parking.html"
+                    class="active"
+                >
+                    Parking
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+            </nav>
+
+
+            <a
+                href="dashboard.html"
+                class="nav-action"
+            >
+                Dashboard
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         MAIN CONTENT
+         ===================================================== -->
+
+    <main>
+
+        <section class="parking-page">
+
+            <div class="container">
+
+
+                <!-- Page Header -->
+
+                <div class="page-header">
+
+                    <div>
+
+                        <span class="page-header-label">
+                            SMART PARKING
+                        </span>
+
+                        <h1>
+
+                            Find an
+
+                            <span>
+                                available spot.
+                            </span>
+
+                        </h1>
+
+                        <p>
+
+                            Select an available parking slot
+                            and reserve your space through
+                            the ParkCloud platform.
+
+                        </p>
+
+                    </div>
+
+
+                    <div class="location-card">
+
+                        <small>
+                            CURRENT LOCATION
+                        </small>
+
+                        <strong>
+                            Main Campus Parking
+                        </strong>
+
+                        <div class="location-status">
+
+                            <i></i>
+
+                            Parking system online
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Parking Layout -->
+
+                <div class="parking-layout">
+
+
+                    <!-- Parking Board -->
+
+                    <div class="parking-board">
+
+
+                        <div class="board-top">
+
+                            <div class="board-title">
+
+                                <small>
+                                    PARKING AREA
+                                </small>
+
+                                <h2>
+                                    Ground Floor
+                                </h2>
+
+                            </div>
+
+                            <span class="board-count">
+                                8 slots displayed
+                            </span>
+
+                        </div>
+
+
+                        <div class="parking-area">
+
+
+                            <!-- Row A -->
+
+                            <div class="row-label">
+                                ROW A
+                            </div>
+
+                            <div class="parking-row">
+
+
+                                <button
+                                    class="slot-card slot-available"
+                                    data-slot="A01"
+                                    type="button"
+                                >
+
+                                    <span class="slot-number">
+                                        A01
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Available
+                                    </small>
+
+                                </button>
+
+
+                                <button
+                                    class="slot-card slot-occupied"
+                                    type="button"
+                                    disabled
+                                >
+
+                                    <span class="slot-number">
+                                        A02
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Occupied
+                                    </small>
+
+                                </button>
+
+
+                                <button
+                                    class="slot-card slot-available"
+                                    data-slot="A03"
+                                    type="button"
+                                >
+
+                                    <span class="slot-number">
+                                        A03
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Available
+                                    </small>
+
+                                </button>
+
+
+                                <button
+                                    class="slot-card slot-reserved"
+                                    type="button"
+                                    disabled
+                                >
+
+                                    <span class="slot-number">
+                                        A04
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Reserved
+                                    </small>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- Row B -->
+
+                            <div
+                                class="row-label"
+                                style="margin-top: 25px;"
+                            >
+                                ROW B
+                            </div>
+
+                            <div class="parking-row">
+
+
+                                <button
+                                    class="slot-card slot-available"
+                                    data-slot="B01"
+                                    type="button"
+                                >
+
+                                    <span class="slot-number">
+                                        B01
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Available
+                                    </small>
+
+                                </button>
+
+
+                                <button
+                                    class="slot-card slot-occupied"
+                                    type="button"
+                                    disabled
+                                >
+
+                                    <span class="slot-number">
+                                        B02
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Occupied
+                                    </small>
+
+                                </button>
+
+
+                                <button
+                                    class="slot-card slot-available"
+                                    data-slot="B03"
+                                    type="button"
+                                >
+
+                                    <span class="slot-number">
+                                        B03
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Available
+                                    </small>
+
+                                </button>
+
+
+                                <button
+                                    class="slot-card slot-available"
+                                    data-slot="B04"
+                                    type="button"
+                                >
+
+                                    <span class="slot-number">
+                                        B04
+                                    </span>
+
+                                    <strong class="slot-icon">
+                                        P
+                                    </strong>
+
+                                    <small>
+                                        Available
+                                    </small>
+
+                                </button>
+
+                            </div>
+
+
+                            <!-- Legend -->
+
+                            <div class="parking-legend-page">
+
+                                <div class="legend-item">
+
+                                    <span
+                                        class="legend-circle legend-green"
+                                    ></span>
+
+                                    Available
+
+                                </div>
+
+
+                                <div class="legend-item">
+
+                                    <span
+                                        class="legend-circle legend-red"
+                                    ></span>
+
+                                    Occupied
+
+                                </div>
+
+
+                                <div class="legend-item">
+
+                                    <span
+                                        class="legend-circle legend-yellow"
+                                    ></span>
+
+                                    Reserved
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- Booking Panel -->
+
+                    <aside class="booking-panel">
+
+                        <small>
+                            RESERVATION
+                        </small>
+
+                        <h2>
+                            Reserve a slot
+                        </h2>
+
+                        <p>
+
+                            Select an available slot from
+                            the parking map to continue.
+
+                        </p>
+
+
+                        <div class="selected-slot">
+
+                            <small>
+                                SELECTED SLOT
+                            </small>
+
+                            <strong id="selectedSlot">
+                                —
+                            </strong>
+
+                        </div>
+
+
+                        <form
+                            class="booking-form"
+                            id="bookingForm"
+                        >
+
+                            <div class="form-group">
+
+                                <label for="vehicleNumber">
+                                    VEHICLE NUMBER
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="vehicleNumber"
+                                    placeholder="e.g. TN01AB1234"
+                                    required
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="duration">
+                                    PARKING DURATION
+                                </label>
+
+                                <select
+                                    id="duration"
+                                    required
+                                >
+
+                                    <option value="">
+                                        Select duration
+                                    </option>
+
+                                    <option value="1 Hour">
+                                        1 Hour
+                                    </option>
+
+                                    <option value="2 Hours">
+                                        2 Hours
+                                    </option>
+
+                                    <option value="4 Hours">
+                                        4 Hours
+                                    </option>
+
+                                    <option value="Full Day">
+                                        Full Day
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <button
+                                type="submit"
+                                class="reserve-btn"
+                            >
+                                Reserve Parking Slot
+                            </button>
+
+                        </form>
+
+
+                        <p class="booking-note">
+
+                            Your reservation will be stored
+                            in the cloud when Firebase
+                            integration is enabled.
+
+                        </p>
+
+                    </aside>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-mark">
+                    P
+                </span>
+
+                <div class="brand-text">
+
+                    <strong>
+                        ParkCloud
+                    </strong>
+
+                    <span>
+                        SMART PARKING
+                    </span>
+
+                </div>
+
+            </a>
+
+            <p>
+                Cloud-based smart parking management
+                for connected spaces.
+            </p>
+
+            <span class="copyright">
+                © 2026 ParkCloud
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/script.js"></script>
+<script type="module" src="js/parking.js"></script>
+
+</body>
+</html>

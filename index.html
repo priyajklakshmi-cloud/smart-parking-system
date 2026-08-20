@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="ParkCloud - Cloud-based smart parking management system"
+    >
+
+    <title>ParkCloud | Smart Parking Management</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Main Stylesheet -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+
+<body>
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="container nav-container">
+
+            <!-- Brand -->
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-mark">
+                    P
+                </span>
+
+                <div class="brand-text">
+
+                    <strong>
+                        ParkCloud
+                    </strong>
+
+                    <span>
+                        SMART PARKING
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- Navigation -->
+
+            <nav class="nav-links">
+
+                <a
+                    href="index.html"
+                    class="active"
+                >
+                    Home
+                </a>
+
+                <a href="parking.html">
+                    Parking
+                </a>
+
+                <a href="dashboard.html">
+                    Dashboard
+                </a>
+
+            </nav>
+
+
+            <!-- Navigation Action -->
+
+            <a
+                href="parking.html"
+                class="nav-action"
+            >
+                Find Parking
+                <span>→</span>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =====================================================
+         HERO SECTION
+         ===================================================== -->
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-background"></div>
+
+
+            <div class="container hero-grid">
+
+
+                <!-- Hero Content -->
+
+                <div class="hero-content">
+
+
+                    <div class="live-badge">
+
+                        <span class="live-dot"></span>
+
+                        CLOUD PARKING SYSTEM
+
+                    </div>
+
+
+                    <h1>
+
+                        Find your spot.
+
+                        <span>
+                            Park smarter.
+                        </span>
+
+                    </h1>
+
+
+                    <p>
+
+                        A cloud-based parking management platform
+                        that helps users discover available parking
+                        spaces and monitor parking activity in real time.
+
+                    </p>
+
+
+                    <!-- Hero Buttons -->
+
+                    <div class="hero-buttons">
+
+                        <a
+                            href="parking.html"
+                            class="primary-btn"
+                        >
+
+                            View Parking Slots
+
+                            <span>↗</span>
+
+                        </a>
+
+
+                        <a
+                            href="dashboard.html"
+                            class="secondary-btn"
+                        >
+
+                            Open Dashboard
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Statistics -->
+
+                    <div class="hero-stats">
+
+
+                        <div class="hero-stat">
+
+                            <strong>
+                                120
+                            </strong>
+
+                            <span>
+                                Total Slots
+                            </span>
+
+                        </div>
+
+
+                        <div class="hero-stat">
+
+                            <strong>
+                                48
+                            </strong>
+
+                            <span>
+                                Available
+                            </span>
+
+                        </div>
+
+
+                        <div class="hero-stat">
+
+                            <strong>
+                                98%
+                            </strong>
+
+                            <span>
+                                System Uptime
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================================
+                     PARKING VISUAL
+                     ================================================= -->
+
+                <div class="parking-preview">
+
+
+                    <!-- Preview Header -->
+
+                    <div class="preview-header">
+
+                        <div>
+
+                            <span>
+                                LIVE PARKING
+                            </span>
+
+                            <h2>
+                                Main Campus
+                            </h2>
+
+                        </div>
+
+
+                        <div class="online-status">
+
+                            <i></i>
+
+                            ONLINE
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Parking Grid -->
+
+                    <div class="parking-grid">
+
+
+                        <!-- Slot 01 -->
+
+                        <button
+                            class="parking-slot available"
+                            type="button"
+                        >
+
+                            <span>
+                                A01
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Available
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 02 -->
+
+                        <button
+                            class="parking-slot occupied"
+                            type="button"
+                        >
+
+                            <span>
+                                A02
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Occupied
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 03 -->
+
+                        <button
+                            class="parking-slot available"
+                            type="button"
+                        >
+
+                            <span>
+                                A03
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Available
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 04 -->
+
+                        <button
+                            class="parking-slot reserved"
+                            type="button"
+                        >
+
+                            <span>
+                                A04
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Reserved
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 05 -->
+
+                        <button
+                            class="parking-slot available"
+                            type="button"
+                        >
+
+                            <span>
+                                B01
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Available
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 06 -->
+
+                        <button
+                            class="parking-slot occupied"
+                            type="button"
+                        >
+
+                            <span>
+                                B02
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Occupied
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 07 -->
+
+                        <button
+                            class="parking-slot available"
+                            type="button"
+                        >
+
+                            <span>
+                                B03
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Available
+                            </small>
+
+                        </button>
+
+
+                        <!-- Slot 08 -->
+
+                        <button
+                            class="parking-slot available"
+                            type="button"
+                        >
+
+                            <span>
+                                B04
+                            </span>
+
+                            <strong>
+                                P
+                            </strong>
+
+                            <small>
+                                Available
+                            </small>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- Parking Legend -->
+
+                    <div class="parking-legend">
+
+
+                        <div>
+
+                            <span class="legend-dot available-dot"></span>
+
+                            Available
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="legend-dot occupied-dot"></span>
+
+                            Occupied
+
+                        </div>
+
+
+                        <div>
+
+                            <span class="legend-dot reserved-dot"></span>
+
+                            Reserved
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Preview Footer -->
+
+                    <div class="preview-footer">
+
+                        <div>
+
+                            <span class="footer-label">
+                                OCCUPANCY
+                            </span>
+
+                            <strong>
+                                60%
+                            </strong>
+
+                        </div>
+
+
+                        <div class="occupancy-bar">
+
+                            <span></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             FEATURES SECTION
+             ===================================================== -->
+
+        <section class="features">
+
+
+            <div class="container">
+
+
+                <div class="section-heading">
+
+                    <span>
+                        SMART PARKING ECOSYSTEM
+                    </span>
+
+                    <h2>
+
+                        Everything you need to
+
+                        <em>
+                            park smarter.
+                        </em>
+
+                    </h2>
+
+                    <p>
+
+                        One centralized platform for parking
+                        availability, reservations and analytics.
+
+                    </p>
+
+                </div>
+
+
+                <!-- Feature Cards -->
+
+                <div class="feature-grid">
+
+
+                    <!-- Feature 1 -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ◉
+                        </div>
+
+                        <span class="feature-number">
+                            01
+                        </span>
+
+                        <h3>
+                            Live Availability
+                        </h3>
+
+                        <p>
+
+                            Quickly identify available and
+                            occupied parking slots through
+                            a visual parking map.
+
+                        </p>
+
+                        <a href="parking.html">
+
+                            Explore Parking
+
+                            <span>→</span>
+
+                        </a>
+
+                    </article>
+
+
+                    <!-- Feature 2 -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            □
+                        </div>
+
+                        <span class="feature-number">
+                            02
+                        </span>
+
+                        <h3>
+                            Easy Reservation
+                        </h3>
+
+                        <p>
+
+                            Select an available slot and
+                            reserve it before arriving at
+                            the parking area.
+
+                        </p>
+
+                        <a href="parking.html">
+
+                            Reserve Slot
+
+                            <span>→</span>
+
+                        </a>
+
+                    </article>
+
+
+                    <!-- Feature 3 -->
+
+                    <article class="feature-card">
+
+                        <div class="feature-icon">
+                            ◇
+                        </div>
+
+                        <span class="feature-number">
+                            03
+                        </span>
+
+                        <h3>
+                            Cloud Analytics
+                        </h3>
+
+                        <p>
+
+                            Monitor parking utilization,
+                            availability and activity using
+                            centralized cloud data.
+
+                        </p>
+
+                        <a href="dashboard.html">
+
+                            View Analytics
+
+                            <span>→</span>
+
+                        </a>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================================
+             CLOUD SECTION
+             ===================================================== -->
+
+        <section class="cloud-section">
+
+
+            <div class="container cloud-grid">
+
+
+                <!-- Content -->
+
+                <div class="cloud-content">
+
+                    <span class="section-label">
+                        POWERED BY CLOUD
+                    </span>
+
+                    <h2>
+
+                        Parking data,
+
+                        <span>
+                            available anywhere.
+                        </span>
+
+                    </h2>
+
+                    <p>
+
+                        ParkCloud stores parking information
+                        in a centralized cloud environment,
+                        allowing the system to maintain
+                        up-to-date slot availability and
+                        parking activity.
+
+                    </p>
+
+
+                    <div class="cloud-points">
+
+
+                        <div>
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <p>
+                                Centralized parking data
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <p>
+                                Real-time availability updates
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <span>
+                                ✓
+                            </span>
+
+                            <p>
+                                Cloud-based analytics
+                            </p>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- Cloud Visual -->
+
+                <div class="cloud-visual">
+
+
+                    <div class="cloud-ring ring-one"></div>
+
+                    <div class="cloud-ring ring-two"></div>
+
+
+                    <div class="cloud-core">
+
+                        <span>
+                            ☁
+                        </span>
+
+                        <strong>
+                            CLOUD
+                        </strong>
+
+                        <small>
+                            PARKING DATA
+                        </small>
+
+                    </div>
+
+
+                    <div class="cloud-node node-top">
+                        SLOTS
+                    </div>
+
+                    <div class="cloud-node node-right">
+                        USERS
+                    </div>
+
+                    <div class="cloud-node node-bottom">
+                        ANALYTICS
+                    </div>
+
+                    <div class="cloud-node node-left">
+                        BOOKINGS
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+
+            <a
+                href="index.html"
+                class="brand"
+            >
+
+                <span class="brand-mark">
+                    P
+                </span>
+
+                <div class="brand-text">
+
+                    <strong>
+                        ParkCloud
+                    </strong>
+
+                    <span>
+                        SMART PARKING
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <p>
+
+                Cloud-based smart parking management
+                for connected spaces.
+
+            </p>
+
+
+            <span class="copyright">
+
+                © 2026 ParkCloud
+
+            </span>
+
+        </div>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+
+    <script src="js/script.js"></script>
+
+</body>
+
+</html>
